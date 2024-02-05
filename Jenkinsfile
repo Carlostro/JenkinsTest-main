@@ -8,12 +8,12 @@ pipeline {
     }
     stages {
         stage("init"){
-            stages{
-                script{
-                    gv =load "script.groovy"
+                steps {
+                    script{
+                        gv = load "script.groovy"
+                    }
                 }
-            }
-        }        
+        }           
         stage('Build') {
             steps {
                 script{
