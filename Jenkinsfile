@@ -8,13 +8,13 @@ pipeline {
 
     }
     stages {
-        stage("Build") {
+        stage('Build') {
             steps {
                 echo 'Building..'
                 sh "mvn --version"
             }
         }
-        stage("Test") {
+        stage('Test') {
             when{
                 expression{
                     params.executeTest
@@ -24,7 +24,7 @@ pipeline {
                 echo 'Testing..'
             }
         }
-        stage("deploy") {
+        stage('Deploy') {
             steps {
                 echo 'Deploying....'
                 echo "deploying version ${params.VERSION}"
