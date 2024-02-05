@@ -1,32 +1,33 @@
+def gv
+
 pipeline {
     agent any
-    parameters {
-        choice(name: "VERSION", choices:['1.1.0', '1.2.0', '1.3.0'], description: 'Select the version to build and deploy')
-        booleanParam(name: 'executeTest', defaultValue: true, description: 'Check to execute tests')
+    parameters{
+        choice(name: "VERSION" , choices:['1.1.0','1.2.0','1.3.0'], description: '')
+        booleanParam(name:'executeTest', defaultValue: true , description: '')
+
     }
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
-                sh 'mvn clean install'  // Agrega comandos de construcción reales aquí
+                echo 'Building..'
+                sh "mvn --version"
             }
         }
         stage('Test') {
-            when {
-                expression {
+            when{
+                expression{
                     params.executeTest
                 }
             }
             steps {
-                echo 'Testing...'
-                sh 'mvn test'  // Agrega comandos de prueba reales aquí
+                echo 'Testing..'
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
-                echo "Deploying version ${params.VERSION}"
-                sh "./deploy.sh ${params.VERSION}"   
+                echo 'Deploying....'
+                echo "deploying version ${params.VERSION}"
             }
         }
     }   
