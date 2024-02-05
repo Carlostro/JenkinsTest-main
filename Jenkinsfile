@@ -5,12 +5,20 @@ pipeline {
     parameters{
         choice(name: 'VERSION' , choices:['1.1.0','1.2.0','1.3.0'], description: '')
         booleanParam(name:'executeTest', defaultValue: true , description: '')
-
     }
     stages {
+        stage("init"){
+            stages{
+                script{
+                    gv =load "script.groovy"
+                }
+            }
+        }        
         stage('Build') {
             steps {
-                echo 'Building..'
+                script{
+                    gv.buildApp() 
+                }
                 sh "mvn --version"
             }
         }
@@ -21,14 +29,17 @@ pipeline {
                 }
             }
             steps {
-                echo 'Testing..'
+                script{
+                    gv.testApp() 
             }
+        }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
-                echo "deploying version ${params.VERSION}"
-            }
-        }
-    }   
+               script{
+                   deployApp() 
+                }
+            }   
+        }   
+    }
 }
